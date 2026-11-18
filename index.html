@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Онбординг — покрокова інструкція на справжніх екранах</title>
+<style>
+  :root { --o:#F79813; --os:#FFF3E4; --g:#5E8C61; --ink:#2B2622; --mu:#6B655E; --line:#E7E1D8; --bg:#F3F1EC; --red:#E0533C; --blue:#2F6FED; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; color:var(--ink); background:var(--bg); line-height:1.5; }
+  .wrap { max-width:1120px; margin:0 auto; padding:40px 24px 90px; }
+  h1 { font-size:32px; margin:0 0 10px; }
+  .lead { font-size:17px; color:var(--mu); max-width:820px; }
+  .summary { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px; margin:24px 0 8px; }
+  .sum { background:#fff; border:1px solid var(--line); border-radius:16px; padding:14px 16px; font-size:14px; }
+  .sum b { display:block; font-size:15px; margin-bottom:2px; }
+  .sum.new { border-color:var(--o); }
+  .sum.keep { border-color:#BFD6B8; }
+  .step { display:grid; grid-template-columns:340px 1fr; gap:36px; align-items:start; background:#fff; border:1px solid var(--line); border-radius:24px; padding:28px; margin-top:28px; }
+  @media (max-width:860px){ .step{ grid-template-columns:1fr; } }
+  .num { display:inline-flex; align-items:center; justify-content:center; width:34px; height:34px; border-radius:50%; background:var(--o); color:#fff; font-weight:900; margin-right:10px; }
+  h2 { display:flex; align-items:center; font-size:22px; margin:0 0 6px; }
+  .badge { display:inline-block; font-size:11px; font-weight:800; letter-spacing:.5px; text-transform:uppercase; padding:3px 9px; border-radius:999px; margin-bottom:10px; }
+  .b-new { background:var(--os); color:#B86A00; }
+  .b-keep { background:#EAF4E4; color:#3E5A36; }
+  .b-change { background:#E7EEFF; color:var(--blue); }
+  ol.pts { margin:12px 0 0; padding:0; list-style:none; counter-reset:p; }
+  ol.pts li { counter-increment:p; position:relative; padding:8px 0 8px 40px; border-bottom:1px dashed var(--line); font-size:15px; }
+  ol.pts li:last-child { border-bottom:0; }
+  ol.pts li::before { content:counter(p); position:absolute; left:0; top:8px; width:26px; height:26px; border-radius:50%; background:var(--red); color:#fff; font-weight:900; font-size:13px; display:flex; align-items:center; justify-content:center; }
+  .note { margin-top:14px; font-size:14px; background:#FAF7F2; border-radius:12px; padding:10px 14px; color:var(--mu); }
+  .note b { color:var(--ink); }
+
+  /* Телефон зі справжнім скріном */
+  .phone { position:relative; width:320px; border-radius:40px; background:#111; padding:10px; box-shadow:0 16px 36px rgba(0,0,0,.18); }
+  .scr { position:relative; width:300px; height:652px; border-radius:30px; overflow:hidden; background:#FBFAF7; }
+  .scr img { width:300px; height:652px; display:block; object-fit:cover; }
+  /* Мітка-кружечок і стрілка */
+  .mark { position:absolute; width:26px; height:26px; border-radius:50%; background:var(--red); color:#fff; font-weight:900; font-size:13px; display:flex; align-items:center; justify-content:center; border:2px solid #fff; box-shadow:0 2px 6px rgba(0,0,0,.3); z-index:5; }
+  .ring { position:absolute; border:3px solid var(--red); border-radius:14px; z-index:4; box-shadow:0 0 0 3px rgba(224,83,60,.18); }
+  .dim { position:absolute; left:0; right:0; background:rgba(251,250,247,.62); z-index:3; }
+  .newtag { position:absolute; z-index:6; background:var(--blue); color:#fff; font-size:10px; font-weight:900; letter-spacing:.6px; padding:2px 7px; border-radius:6px; }
+  /* Нові елементи, намальовані поверх */
+  .hero { position:absolute; left:10px; right:10px; z-index:4; background:linear-gradient(135deg,#FFE7C2,#FFF6E8); border:2px solid #F5C987; border-radius:16px; padding:10px 12px; box-shadow:0 6px 18px rgba(0,0,0,.12); }
+  .hero .k { font-size:9px; font-weight:900; color:#B86A00; letter-spacing:1px; }
+  .hero .t { font-size:15px; font-weight:900; margin-top:2px; }
+  .hero .s { font-size:10.5px; color:var(--mu); }
+  .hero .bar { height:6px; border-radius:3px; background:#EFE7DA; overflow:hidden; margin:6px 0 2px; }
+  .hero .bar i { display:block; height:100%; width:20%; background:var(--o); }
+  .hero .btn { margin-top:7px; background:var(--o); color:#fff; font-weight:800; text-align:center; padding:8px; border-radius:11px; font-size:12px; }
+  .tip { position:absolute; z-index:6; background:#2B2622; color:#fff; font-size:11px; padding:8px 10px; border-radius:10px; width:190px; box-shadow:0 6px 16px rgba(0,0,0,.25); }
+  .tip:after { content:""; position:absolute; left:24px; top:-6px; border:6px solid transparent; border-top:0; border-bottom-color:#2B2622; }
+  .full { position:absolute; inset:0; z-index:5; background:rgba(43,38,34,.55); display:flex; align-items:center; justify-content:center; }
+  .pop { width:230px; background:#fff; border-radius:20px; padding:16px; text-align:center; }
+  .pop .e { font-size:34px; }
+  .pop .h { font-size:16px; font-weight:900; margin-top:4px; }
+  .pop .d { font-size:11.5px; color:var(--mu); margin-top:4px; }
+  .pop .bt { margin-top:10px; background:var(--g); color:#fff; font-weight:800; padding:9px; border-radius:12px; font-size:12px; }
+  .pop .gh { margin-top:7px; font-size:11px; color:var(--mu); }
+  .newscreen { position:absolute; inset:0; background:#FBFAF7; padding:58px 16px 16px; }
+  .newscreen .k { font-size:10px; font-weight:900; color:var(--o); letter-spacing:1.2px; }
+  .newscreen .t { font-size:20px; font-weight:900; margin:4px 0 4px; line-height:1.2; }
+  .newscreen .s { font-size:12px; color:var(--mu); }
+  .opt { border:1.5px solid var(--line); background:#fff; border-radius:13px; padding:10px 12px; margin-top:8px; font-weight:700; font-size:13px; }
+  .opt.on { border-color:var(--o); background:var(--os); }
+  .bigbtn { margin-top:12px; background:var(--o); color:#fff; font-weight:800; text-align:center; padding:11px; border-radius:13px; font-size:13px; }
+  .bigbtn.g { background:var(--g); }
+  .skip { text-align:center; color:var(--mu); font-size:12px; margin-top:8px; }
+  .sb { position:absolute; top:10px; left:22px; right:22px; display:flex; justify-content:space-between; font-size:11px; font-weight:800; color:#333; }
+  .flow { display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin:18px 0 0; font-weight:800; font-size:14px; }
+  .flow span { background:#fff; border:1px solid var(--line); border-radius:999px; padding:6px 12px; }
+  .flow i { color:var(--o); font-style:normal; font-weight:900; }
+  table { width:100%; border-collapse:collapse; background:#fff; border:1px solid var(--line); border-radius:16px; overflow:hidden; margin-top:14px; }
+  th,td { text-align:left; padding:11px 14px; border-bottom:1px solid var(--line); font-size:14px; vertical-align:top; }
+  th { background:#FAF7F2; font-size:12px; text-transform:uppercase; letter-spacing:.5px; color:var(--mu); }
+  tr:last-child td { border-bottom:0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>Онбординг: що і де змінюється — на справжніх екранах</h1>
+<p class="lead">Нижче — справжні скріни поточного застосунку. <span style="color:var(--red);font-weight:800">Червоні номери</span> показують, на що дивитися. Елементи з позначкою <span style="background:var(--blue);color:#fff;font-size:11px;font-weight:900;padding:1px 6px;border-radius:5px">НОВЕ</span> — це те, що додаємо. Усе інше — як є зараз.</p>
+
+<div class="summary">
+  <div class="sum new"><b>Додаємо 3 речі</b>Екран «Для чого англійська?», блок «Ваш перший крок» на Головній, святкування після перших карток.</div>
+  <div class="sum keep"><b>Нічого не прибираємо</b>Усі сторінки, кнопки й нинішні гайди лишаються.</div>
+  <div class="sum"><b>Змінюємо 1 правило</b>Гайди сторінок показуються не з першого входу, а після першого кроку.</div>
+</div>
+
+<div class="flow"><span>Реєстрація</span><i>→</i><span>1. Для чого англійська?</span><i>→</i><span>2. Головна: «Ваш перший крок»</span><i>→</i><span>3. Тема розмовника</span><i>→</i><span>4. Картки</span><i>→</i><span>5. Святкування</span><i>→</i><span>6. Час нагадувань</span><i>→</i><span>7. Далі — звичайний застосунок</span></div>
+
+<!-- КРОК 1 -->
+<div class="step">
+  <div class="phone"><div class="scr">
+    <div class="newscreen">
+      <div class="k">КРОК 1 З 3</div>
+      <div class="t">Для чого вам англійська?</div>
+      <div class="s">Підберемо перші фрази під вас. Змінити можна будь-коли.</div>
+      <div class="opt on">✈️ Подорожі</div>
+      <div class="opt">💼 Робота</div>
+      <div class="opt">🎬 Фільми й серіали</div>
+      <div class="opt">💬 Спілкування з людьми</div>
+      <div class="opt">🌱 Просто для себе</div>
+      <div class="bigbtn">Далі</div>
+      <div class="skip">Пропустити</div>
+    </div>
+    <div class="sb"><span>9:41</span><span>●●● 100%</span></div>
+    <div class="newtag" style="left:14px;top:30px">НОВЕ</div>
+    <div class="mark" style="left:262px;top:160px">1</div>
+    <div class="mark" style="left:262px;top:398px">2</div>
+    <div class="mark" style="left:196px;top:442px">3</div>
+  </div></div>
+  <div>
+    <span class="badge b-new">Новий екран</span>
+    <h2><span class="num">1</span>Одне питання після реєстрації</h2>
+    <p>Показується <b>один раз</b>, одразу після входу нового користувача. Оформлення — як решта застосунку.</p>
+    <ol class="pts">
+      <li>5 варіантів, обирається один. Відповідь потрібна лише для одного: <b>яку тему розмовника відкрити першою</b>.</li>
+      <li>«Далі» — переходимо на Головну, де вже чекає «Ваш перший крок».</li>
+      <li>«Пропустити» — те саме, тема за замовчуванням «Привітання і прощання».</li>
+    </ol>
+    <div class="note"><b>Мета → перша тема:</b> подорожі → «Привітання і прощання»; робота → «Про себе»; фільми → «Емоції і почуття»; спілкування → «Знайомство і спілкування»; для себе → «Привітання і прощання». Можна змінити.</div>
+  </div>
+</div>
+
+<!-- КРОК 2 -->
+<div class="step">
+  <div class="phone"><div class="scr">
+    <img src="home.png" alt="Головна" />
+    <div class="hero" style="top:88px">
+      <div class="k">ВАШ ПЕРШИЙ КРОК</div>
+      <div class="t">Привітання і прощання</div>
+      <div class="s">5 карток · ~3 хвилини</div>
+      <div class="bar"><i></i></div>
+      <div class="s">Шлях новачка: 1 з 5</div>
+      <div class="btn">Почати →</div>
+    </div>
+    <div class="newtag" style="left:16px;top:78px">НОВЕ</div>
+    <div class="dim" style="top:232px;bottom:62px"></div>
+    <div class="mark" style="left:270px;top:100px">1</div>
+    <div class="mark" style="left:270px;top:330px">2</div>
+    <div class="ring" style="left:8px;right:8px;bottom:8px;height:52px"></div>
+    <div class="mark" style="left:268px;top:568px">3</div>
+  </div></div>
+  <div>
+    <span class="badge b-new">Новий блок на наявній Головній</span>
+    <h2><span class="num">2</span>Головна в перший день</h2>
+    <p>Це справжня Головна. Зверху з'являється один великий помаранчевий блок.</p>
+    <ol class="pts">
+      <li><b>«Ваш перший крок»</b> — тема з кроку 1, коротко «що й скільки часу». Кнопка «Почати» одразу відкриває картки цієї теми.</li>
+      <li>Решта Головної — <b>на місці й працює</b> (слово дня, прогрес, розмовник, граматика), просто трохи бліда, щоб око не розбігалося. Після першого кроку стає звичайною.</li>
+      <li>Футер — як завжди. <b>Гайд Головної зараз не стартує</b> (він покажеться пізніше, крок 7).</li>
+    </ol>
+    <div class="note">Блок зникає сам, щойно людина пройде перші картки. Повертатися не треба нічого вмикати.</div>
+  </div>
+</div>
+
+<!-- КРОК 3 -->
+<div class="step">
+  <div class="phone"><div class="scr">
+    <img src="topic.png" alt="Тема розмовника" />
+    <div class="ring" style="left:12px;top:113px;width:200px;height:50px"></div>
+    <div class="mark" style="left:212px;top:110px">1</div>
+    <div class="ring" style="left:12px;top:247px;width:276px;height:360px"></div>
+    <div class="mark" style="left:270px;top:240px">2</div>
+    <div class="ring" style="left:12px;top:581px;width:276px;height:40px"></div>
+    <div class="mark" style="left:270px;top:574px">3</div>
+  </div></div>
+  <div>
+    <span class="badge b-keep">Вже є — нічого не змінюємо</span>
+    <h2><span class="num">3</span>Тема розмовника (можна пропустити)</h2>
+    <p>Так тема виглядає зараз. Варіант А — «Почати» з Головної <b>одразу відкриває картки</b> (найкоротше). Варіант Б — спершу цей список, людина бачить, що буде вчити.</p>
+    <ol class="pts">
+      <li>Назва теми й скільки в ній фраз — дає відчуття «це небагато, я впораюсь».</li>
+      <li>Список фраз з перекладом і озвученням — можна послухати до початку.</li>
+      <li>«Вчити в картках» — переходимо до кроку 4.</li>
+    </ol>
+    <div class="note"><b>Порада:</b> варіант А для першого разу — менше кроків до першої дії.</div>
+  </div>
+</div>
+
+<!-- КРОК 4 -->
+<div class="step">
+  <div class="phone"><div class="scr">
+    <img src="card.png" alt="Картка теми" />
+    <div class="ring" style="left:64px;top:220px;width:172px;height:50px"></div>
+    <div class="mark" style="left:238px;top:212px">1</div>
+    <div class="tip" style="left:56px;top:282px">Торкніться слова — почуєте вимову. Потім гортайте картку в будь-який бік.</div>
+    <div class="newtag" style="left:58px;top:342px">НОВЕ</div>
+    <div class="ring" style="left:66px;top:520px;width:170px;height:56px"></div>
+    <div class="mark" style="left:238px;top:512px">2</div>
+    <div class="ring" style="left:14px;top:524px;width:50px;height:52px"></div>
+    <div class="mark" style="left:8px;top:500px">3</div>
+  </div></div>
+  <div>
+    <span class="badge b-change">Наявні картки + одна підказка замість туру</span>
+    <h2><span class="num">4</span>Перші картки теми</h2>
+    <p>Справжня картка з колоди «Привітання». Сама колода — без змін.</p>
+    <ol class="pts">
+      <li>Слово / фраза з динаміком — як зараз.</li>
+      <li>Кнопки ↩ · у словник · 👍 — як зараз. Замість 6-крокового гайду карток у перший раз показуємо <b>одну темну підказку</b> (на скріні вище) — вона зникає після першого свайпу.</li>
+      <li>Тема зліва внизу — як зараз.</li>
+    </ol>
+    <div class="note">Повний гайд карток (6 кроків) нікуди не дівається — покажеться при наступному вході в Картки (крок 7).</div>
+  </div>
+</div>
+
+<!-- КРОК 5 -->
+<div class="step">
+  <div class="phone"><div class="scr">
+    <img src="card.png" alt="Картка теми" />
+    <div class="full"><div class="pop">
+      <div class="e">🎉</div>
+      <div class="h">Перші 5 фраз — ваші!</div>
+      <div class="d">Ви щойно пройшли першу тему розмовника. Так і вчиться мова — по 5 хвилин.</div>
+      <div class="bt">Ще 5 фраз</div>
+      <div class="gh">На сьогодні досить</div>
+    </div></div>
+    <div class="newtag" style="left:44px;top:208px">НОВЕ</div>
+    <div class="mark" style="left:250px;top:366px">1</div>
+    <div class="mark" style="left:232px;top:402px">2</div>
+  </div></div>
+  <div>
+    <span class="badge b-new">Нове вікно</span>
+    <h2><span class="num">5</span>Святкування після перших 5 карток</h2>
+    <p>З'являється поверх карток <b>один раз</b> — коли людина пройшла 5 карток першої теми.</p>
+    <ol class="pts">
+      <li>«Ще 5 фраз» — закриваємо вікно, людина вчить далі.</li>
+      <li>«На сьогодні досить» — переходимо до кроку 6 (нагадування).</li>
+    </ol>
+    <div class="note">У колодах розмовника мікрофона немає (так зараз задумано), тому рахуємо пройдені картки, а не сказані вголос.</div>
+  </div>
+</div>
+
+<!-- КРОК 6 -->
+<div class="step">
+  <div class="phone"><div class="scr">
+    <div class="newscreen">
+      <div class="k">МАЙЖЕ ВСЕ</div>
+      <div class="t">Коли вам зручно вчитися?</div>
+      <div class="s">Нагадаємо одним повідомленням. 5 хвилин на день — достатньо.</div>
+      <div class="opt">☀️ Вранці · 8:30</div>
+      <div class="opt on">🚇 Вдень · 13:00</div>
+      <div class="opt">🌙 Увечері · 20:30</div>
+      <div class="bigbtn g">Нагадувати о 13:00</div>
+      <div class="skip">Не зараз</div>
+    </div>
+    <div class="sb"><span>9:48</span><span>●●● 100%</span></div>
+    <div class="newtag" style="left:14px;top:30px">НОВЕ</div>
+    <div class="mark" style="left:262px;top:244px">1</div>
+    <div class="mark" style="left:262px;top:322px">2</div>
+  </div></div>
+  <div>
+    <span class="badge b-new">Новий екран → далі наявне вікно сповіщень</span>
+    <h2><span class="num">6</span>Час нагадувань</h2>
+    <ol class="pts">
+      <li>Людина обирає зручний час.</li>
+      <li>«Нагадувати о 13:00» → одразу після цього — <b>наше наявне вікно «Не пропускайте корисне»</b> і системний дозвіл. Зараз це вікно вискакує на старті, коли людина ще не бачила користі; тепер — тут.</li>
+    </ol>
+    <div class="note">Push у вибраний час відкриває Головну (там уже наступний крок).</div>
+  </div>
+</div>
+
+<!-- КРОК 7 -->
+<div class="step">
+  <div class="phone"><div class="scr">
+    <img src="guide.jpg" alt="Гайд карток" />
+    <div class="mark" style="left:262px;top:110px">1</div>
+  </div></div>
+  <div>
+    <span class="badge b-change">Наявні гайди — лише пізніше</span>
+    <h2><span class="num">7</span>Далі — звичайний застосунок і наші гайди</h2>
+    <p>Після кроків 1–6 застосунок працює як зараз. Гайди сторінок (Головна, Картки, Словник, Книга) <b>лишаються такими самими</b> — змінюється лише момент:</p>
+    <ol class="pts">
+      <li>Гайд сторінки показується, коли людина <b>вперше сама</b> заходить на сторінку <b>після першого кроку</b>, а не в першу хвилину життя застосунку. Так людина не бачить 20 «Далі» поспіль.</li>
+    </ol>
+  </div>
+</div>
+
+<h2 style="margin-top:44px">Що це означає для розробки</h2>
+<table>
+  <tr><th>Що</th><th>Де</th><th>Обсяг</th></tr>
+  <tr><td>Екран «Для чого англійська?» (крок 1)</td><td>Новий екран після реєстрації; відповідь зберігаємо в профілі</td><td>малий</td></tr>
+  <tr><td>Блок «Ваш перший крок» + бліда решта (крок 2)</td><td>Головна — новий блок зверху, решта без змін</td><td>малий</td></tr>
+  <tr><td>Одна підказка в перших картках (крок 4)</td><td>Картки — підказка замість туру лише в перший раз</td><td>малий</td></tr>
+  <tr><td>Святкування після 5 карток (крок 5)</td><td>Картки — нове вікно, один раз</td><td>малий</td></tr>
+  <tr><td>Час нагадувань → наявне вікно сповіщень (крок 6)</td><td>Новий екран + перенесення моменту показу вікна сповіщень</td><td>середній (push за часом — сервер)</td></tr>
+  <tr><td>Гайди сторінок — після першого кроку (крок 7)</td><td>Одна умова в логіці гайдів</td><td>малий</td></tr>
+</table>
+<p class="lead" style="margin-top:14px">Разом — приблизно 1–2 дні. Нічого з поточного не видаляється; усе нове показується лише новим людям один раз.</p>
+
+</div>
+</body>
+</html>
